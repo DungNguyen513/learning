@@ -153,7 +153,6 @@ where kh.MAKH = hd.MAKH and hd.NGAY = '2010/5/25'
 
 -- 11. Lấy ra các thông tin gồm Mã hóa đơn, ngày lập hóa đơn, tên khách hàng, 
 --     địa chỉ khách hàng và số điện thoại của những hóa đơn trong tháng 6/2010.
--- https://www.mssqltips.com/sqlservertip/1145/date-and-time-conversions-using-sql-server/
 select hd.MAHD, convert(varchar, hd.NGAY, 103) as NGAY, kh.TENKH, kh.DIACHI, kh.DT
 from HOADON hd, KHACHHANG kh
 where kh.MAKH = hd.MAKH and month(hd.NGAY) = '6' and year(hd.NGAY) = '2010'
@@ -206,7 +205,6 @@ where MAVT not in (select MAVT from CTHD)
 -- 18. Tạo bảng tổng hợp gồm các thông tin: mã hóa đơn, ngày hóa đơn, tên 
 --     khách hàng, địa chỉ, số điện thoại, tên vật tư, đơn vị tính, giá mua, giá 
 --     bán, số lượng, trị giá mua, trị giá bán.
--- https://www.mssqltips.com/sqlservertip/1145/date-and-time-conversions-using-sql-server/
 select ct.MAHD, convert(varchar, hd.NGAY, 103) as NGAY, kh.TENKH, kh.DIACHI,
 	   kh.DT, vt.TENVT, vt.DVT, vt.GIAMUA, ct.GIABAN, ct.SL,
 	   (vt.GIAMUA * ct.SL) as TGMUA, (ct.GIABAN * ct.SL) as TGBAN
