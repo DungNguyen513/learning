@@ -3,7 +3,6 @@
 #include<conio.h>
 
 #define MAX 100
-#define inputfile "D:/test2.txt"
 
 struct GRAPH {
 	int soDinh;
@@ -106,7 +105,9 @@ void XetLienThong(GRAPH g) {
 int main() {
 	GRAPH g;
 	
-	if (DocMaTranKe(inputfile, g) == 1) {
+	char filepath[] = "./test2.txt";
+	
+	if (DocMaTranKe(filepath, g) == 1) {
 		printf("Da lay thong tin do thi tu file thanh cong!\n\n");
 		
 		XuatMaTranKe(g);

@@ -4,7 +4,6 @@
 #include<conio.h>
 
 #define MAX 100
-#define inputfile "D:/Test1_01.txt"
 
 struct STACK {
 	int arr[MAX];
@@ -133,7 +132,9 @@ int KiemTraChuTrinhEuler(GRAPH g) {
 int main() {
 	GRAPH g;
 	
-	if (DocMaTranKe(inputfile, g) == 1) {
+	char filepath[] = "./Test1_01.txt";
+	
+	if (DocMaTranKe(filepath, g) == 1) {
 		printf("Da lay thong tin do thi tu file thanh cong!\n\n");
 		
 		XuatMaTranKe(g);
