@@ -45,8 +45,8 @@ void lietKeThuTuDuyet() {
 }
 
 void DFS(int S, DOTHI g) {
-	daDuyet[S] = 1;
-	thuTuDuyet[nTTD++] = S;
+	daDuyet[S] = 1; // danh dau da duyet dinh S
+	thuTuDuyet[nTTD++] = S; // bo dinh S vao thuTuDuyet
 	for (int i = 0; i < g.soDinh; i++) {
 		if (g.a[S][i] != 0 && daDuyet[i] == 0) {
 			daDuyet[i] = 1;
@@ -59,23 +59,23 @@ int lay1PTTuHangDoi(int Q[], int &nQ) {
 	int U = Q[0];
 	for (int i = 0; i < nQ - 1; i++)
 		Q[i] = Q[i+1];
-	nQ--;
+	nQ--; // giam so phan tu cua Q
 	return U;
 }
 
 void BFS(int S, DOTHI g) {
-	int Q[MAX], nQ = 0;
-	daDuyet[S] = 1;
-	thuTuDuyet[nTTD++] = S;
-	Q[nQ++] = S;
+	int Q[MAX], nQ = 0; // khai bao va khoi tao QUEUE
+	daDuyet[S] = 1; // danh dau da duyet dinh S
+	thuTuDuyet[nTTD++] = S; // bo dinh S vao thuTuDuyet
+	Q[nQ++] = S; // bo S vao QUEUE 
 	int U;
 	while (nQ != 0) {
 		U = lay1PTTuHangDoi(Q, nQ);
 		for (int i = 0; i < g.soDinh; i++) {
 			if (g.a[U][i] != 0 && daDuyet[i] == 0) {
-				daDuyet[i] = 1;
+				daDuyet[i] = 1; // danh dau da duyet i
 				thuTuDuyet[nTTD++] = i;
-				Q[nQ++] = i;
+				Q[nQ++] = i; // bo i vao hang doi
 			}
 		}
 	}
@@ -97,4 +97,3 @@ int main() {
 	printf("\nBFS: ");
 	lietKeThuTuDuyet();
 }
-
