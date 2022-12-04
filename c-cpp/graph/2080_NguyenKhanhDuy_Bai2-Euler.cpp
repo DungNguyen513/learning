@@ -1,161 +1,155 @@
-
 #include<stdio.h>
-#include<stdlib.h>
 #include<conio.h>
+#define inputfile "D:/test3.txt"
+#define max 100
+typedef struct dt{
+	int n;
+	int arr[max][max];
+}DOTHI;
 
-#define MAX 100
-
-struct STACK {
-	int arr[MAX];
+struct STACK{
+	int a[100];
 	int size;
 };
-
-struct GRAPH {
-	int soDinh;
-	int a[MAX][MAX];
-};
-
-int DocMaTranKe(char tenfile[], GRAPH &g) {
-	// doc file
-	FILE* f;
-	f = fopen(tenfile, "rt");
-	if (f == NULL) {
-		printf("Khong mo duoc file!\n");
+int DocMaTranKe(char TenFile[100],DOTHI &g)
+{
+	FILE*f;
+	f = fopen(TenFile, "rt");
+	if(f==NULL)
+	{
+		printf("Khong mo duoc file\n");
 		return 0;
 	}
-	
-	fscanf(f, "%d", &g.soDinh);
-	
-	int i, j;
-	for (i = 0; i < g.soDinh; i++) {
-		for (j = 0; j < g.soDinh; j++) {
-			fscanf(f, "%d", &g.a[i][j]);
+	fscanf(f,"%d",&g.n);
+	int i,j;
+	for(i=0;i<g.n;i++)
+	{
+		for(j=0;j<g.n;j++)
+		{
+			fscanf(f,"%d",&g.arr[i][j]);
 		}
 	}
-	
 	fclose(f);
-	
 	return 1;
 }
 
-void XuatMaTranKe(GRAPH g) {
-	printf("So dinh cua do thi la %d\n", g.soDinh);
-	
-	printf("Ma tran ke cua do thi la:\n");
-	for (int i = 0; i < g.soDinh; i++) {
+void XuatMaTranKe(DOTHI g){
+	printf("So dinh cua do thi la : %d\n",g.n);
+	printf("Ma tran ke cua do thi la\n");
+	for(int i=0;i<g.n;i++){
 		printf("\t");
-		for (int j = 0; j < g.soDinh; j++) {
-			printf("%d ", g.a[i][j]);
+		for(int j=0 ;j<g.n;j++){
+			printf("%d ",g.arr[i][j]);
 		}
 		printf("\n");
 	}
+	
 }
 
-void khoiTaoStack(STACK &stack) {
-	stack.size = 0;
+
+void KTStack(STACK &stack){
+	stack.size=0;
 }
-
-void DayGiaTriVaoStack(STACK &stack, int value) {
-	if (stack.size + 1 >= MAX)
-		return;
-
-	stack.arr[stack.size] = value;
+void DayGiaTriVaoStack(STACK &stack,int value){
+	if(stack.size +1 >=100)
+		return ;
+	stack.a[stack.size]=value;
 	stack.size++;
 }
-
-void TimDuongDi(int i, GRAPH &g, STACK &stack) {
-	for (int j = 0; j < g.soDinh; j++) {
-		if (g.a[i][j] != 0) {
-			g.a[i][j] = g.a[j][i] = 0;
-			TimDuongDi(j, g, stack);
+void timduongdi(int i,DOTHI &g,STACK &stack){
+	for(int j=0;j<g.n;j++){
+		if(g.arr[i][j]=g.arr[j][i]!=0){
+			g.arr[i][j]=g.arr[j][i]=0;
+			timduongdi(j,g,stack);
 		}
 	}
-	DayGiaTriVaoStack(stack, i);
+	DayGiaTriVaoStack(stack,i);
 }
-
-int KiemTraChuTrinhEuler(GRAPH g) {
-	int i, j;
-	int x = 0;
-	int s = 0;
-	
-	for (i = 0; i < g.soDinh; i++) {
-		for (j = 0; j < g.soDinh; j++) {
-			if (g.a[i][j] != 0) {
+int kiemtraEuler(DOTHI g){
+	int i,j;
+	int x=0;
+	int s=0;
+	// tim 1 dinh x
+	for (i = 0; i < g.n; i++) { 
+		for (j = 0; j < g.n; j++) {
+			if (g.arr[i][j] != 0){
 				x = i;
 				s = 1;
 				break;
 			}
 		}
-		
-		if (s == 1)
-			break;
+		if(s==1)
+		break;
 	}
-	
-	GRAPH temp = g;
-	
+	//
+	DOTHI temp = g;
 	STACK stack;
-	khoiTaoStack(stack);
-	TimDuongDi(x, temp, stack);
-	
-	for (i = 0; i < temp.soDinh; i++) {
-		for (j = 0; j < temp.soDinh; j++) {
-			if (temp.a[i][j] != 0)
-				return 0;
-		}
+	KTStack(stack);
+	timduongdi(x,temp, stack);
+	//kt 
+	for (i = 0; i < temp.n; i++){ 
+		for (j = 0; j < temp.n; j++){ 
+			if (temp.arr[i][j] != 0) 
+			return 0;
+		} 
 	}
-	
-	if (stack.arr[stack.size - 1] != stack.arr[0])
-		return 0;
-	
-	printf("\nChu trinh Euler: ");
-	for (i = stack.size - 1; i >= 0; i--) {
-		printf("%d", stack.arr[i] + i);
-	}
-	
+	if (stack.a[stack.size - 1] != stack.a[0])
+		return 0; 
+		
+	printf("\nChu trinh Euler: ");	
+	for(i = stack.size - 1; i >= 0 ; i--) 
+		printf("%d ",stack.a[i] + 1); 
 	return 1;
 }
 
-//int KiemTraDuongDiEuler(GRAPH g) {
-//	int i, j;
-//	int x = 0;
-//	
-//	GRAPH temp = g;
-//	
-//	STACK stack;
-//	khoiTaoStack(stack);
-//	TimDuongDi(x, temp, stack);
-//	
-//	printf("Duong di Euler: ");
-//	return 1;
-//}
-
-int main() {
-	GRAPH g;
-	
-	char filepath[] = "./Test1_01.txt";
-	
-	if (DocMaTranKe(filepath, g) == 1) {
-		printf("Da lay thong tin do thi tu file thanh cong!\n\n");
-		
+int kiemtra_duongdiEuler(DOTHI g){
+	int i,j;
+	int x=0;
+	int s=0;
+	// tim 1 dinh x
+	for (i = 0; i < g.n; i++) { 
+		for (j = 0; j < g.n; j++) {
+			if (g.arr[i][j] %2 !=0){
+				x = i;
+				s = 1;
+				break;
+			}
+		}
+		if(s==1)
+		break;
+	}
+	DOTHI temp = g;
+	STACK stack;
+	KTStack(stack);
+	timduongdi(x,temp, stack);
+	for (i = 0; i < temp.n; i++){ 
+		for (j = 0; j < temp.n; j++){ 
+			if (temp.arr[i][j] != 0) 
+			return 0;
+		} 
+	}
+	if (stack.a[stack.size - 1] == stack.a[0])
+		return 0; 
+	printf("\nduong di Euler: ");	
+	for(i = stack.size - 1; i >= 0 ; i--) 
+		printf("%d ",stack.a[i] + 1); 
+	return 1;
+}
+int main(){
+	DOTHI g;
+	if(DocMaTranKe(inputfile,g)==1){
+		printf("da lay thong tin tu do thi thanh cong.\n\n");
 		XuatMaTranKe(g);
-		
-		printf("\nBam 1 phim bat ki de bat dau xet tim chu trinh euler...\n");
-		
+		printf("\n tim chu trinh euler ... -> enter");
 		getch();
-		
-		if (!KiemTraChuTrinhEuler(g)) {
-			printf("Khong co chu trinh Euler trong do thi cua ban!\n");
-//			printf("\nBam 1 phim bat ki de bat dau xet tim duong di euler...\n");
-			
+		if(!kiemtraEuler(g)){
+			printf("\n kh co chu trinh euler trong do thi");
+			printf("\n tim duoi di euler ... -> enter");
 			getch();
-			
-//			if (!KiemTraDuongDiEuler(g)) {
-//				printf("Khong co duong di Euler trong do thi cua ban!\n");
-//				getch();
-//			}
+			if(!kiemtra_duongdiEuler(g))
+				printf("\n kh co duong di euler trong do thi cua ban");
 		}
 	}
-	
 	getch();
 }
 

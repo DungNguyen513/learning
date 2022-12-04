@@ -39,6 +39,19 @@ int DocMaTranKe(DOTHI &g) {
 	return 1;
 }
 
+void XuatMaTranKe(DOTHI g) {
+	printf("So dinh cua do thi la %d\n", g.soDinh);
+	
+	printf("Ma tran ke cua do thi la:\n");
+	for (int i = 0; i < g.soDinh; i++) {
+		printf("\t");
+		for (int j = 0; j < g.soDinh; j++) {
+			printf("%d ", g.a[i][j]);
+		}
+		printf("\n");
+	}
+}
+
 void lietKeThuTuDuyet() {
 	for (int i = 0; i < nTTD; i++)
 		printf("%d ", thuTuDuyet[i]);
@@ -84,6 +97,8 @@ void BFS(int S, DOTHI g) {
 int main() {
 	DOTHI g;
 	DocMaTranKe(g);
+	XuatMaTranKe(g);
+	
 	int S;
 	printf("Nhap vao dinh xuat phat: "); scanf("%d", &S);
 	
